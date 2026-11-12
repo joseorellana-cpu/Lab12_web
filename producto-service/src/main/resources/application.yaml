@@ -1,0 +1,4 @@
+# Perfil activo: carga application-dev.yml
+spring:
+  profiles:
+    active: dev

@@ -1,0 +1,42 @@
+# ===== Perfil de desarrollo: pedido-service =====
+server:
+  port: 8085
+
+spring:
+  application:
+    # Nombre con el que se registra en Eureka (lo usan los @FeignClient)
+    name: pedido-service
+  datasource:
+    # createDatabaseIfNotExist crea la bd_pedido_dev si aún no existe
+    url: jdbc:mysql://localhost:3306/bd_pedido_dev?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: ""
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            # Tiempos máximos (ms) de las llamadas Feign a otros servicios
+            connect-timeout: 5000
+            read-timeout: 5000
+
+# Propiedad personalizada del ambiente
+empresa:
+  ambiente: desarrollo
+
+# Registro en el servidor Eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
